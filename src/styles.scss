@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+// 1. Import our custom variables so they are available everywhere.
+@import 'styles/variables';
+
+// 2. Import a font from Google Fonts.
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+// 3. Define some global base styles.
+body {
+  margin: 0;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  color: $color-dark;
+  background-color: $color-light;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600; // A slightly bolder weight for headings
+}

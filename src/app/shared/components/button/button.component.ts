@@ -1,0 +1,131 @@
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+// Define the possible styles and sizes for the button
+export type ButtonColor = 'primary' | 'secondary' | 'danger' | 'success';
+export type ButtonType = 'button' | 'submit' | 'reset';
+
+@Component({
+  selector: 'app-button',
+  imports: [CommonModule],
+  template: `
+    <button
+      [type]="type"
+      [disabled]="loading || disabled"
+      [ngClass]="getButtonClasses()"
+      (click)="onClick.emit($event)"
+      class="btn"
+    >
+      <span *ngIf="loading" class="spinner"></span>
+      <span [class.hidden]="loading">
+        <ng-content></ng-content>
+        <!-- This projects the button text -->
+      </span>
+    </button>
+  `,
+  styles: [
+    `
+      @import '../../../../styles/variables';
+
+      :host {
+        display: inline-block;
+      }
+
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: ($spacing-base * 0.9) ($spacing-base * 1.8);
+        font-family: $font-family-base;
+        font-size: $font-size-base;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        user-select: none;
+        border: 1px solid transparent;
+        border-radius: $border-radius;
+        transition: all 0.15s ease-in-out;
+        color: $color-white;
+        position: relative; // For the spinner
+
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 0.65;
+        }
+
+        &:not(:disabled):hover {
+          transform: translateY(-1px);
+          box-shadow: $box-shadow-sm;
+        }
+
+        &.hidden {
+          visibility: hidden;
+        }
+      }
+
+      // --- Color Variants ---
+      .btn-primary {
+        background-color: $color-primary;
+        border-color: $color-primary;
+        &:hover {
+          background-color: darken($color-primary, 7.5%);
+        }
+      }
+
+      .btn-secondary {
+        background-color: $color-secondary;
+        border-color: $color-secondary;
+        &:hover {
+          background-color: darken($color-secondary, 7.5%);
+        }
+      }
+
+      .btn-danger {
+        background-color: $color-danger;
+        border-color: $color-danger;
+        &:hover {
+          background-color: darken($color-danger, 7.5%);
+        }
+      }
+      .btn-success {
+        background-color: $color-success;
+        border-color: $color-success;
+        &:hover {
+          background-color: darken($color-success, 7.5%);
+        }
+      }
+
+      // ---Spinner for loading state ---
+      .spinner {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-top-color: $color-white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `,
+  ],
+})
+export class ButtonComponent {
+  @Input() color: ButtonColor = 'primary';
+  @Input() type: ButtonType = 'button';
+  @Input() loading: boolean = false;
+  @Input() disabled: boolean = false;
+
+  @Output() onClick = new EventEmitter<MouseEvent>();
+
+  getButtonClasses(): string[] {
+    return [`btn-${this.color}`];
+  }
+}

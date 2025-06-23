@@ -1,0 +1,25 @@
+// 1. Typography
+$font-family-base: 'Inter', sans-serif;
+$font-size-base: 13px; // Compact base font size for ERPs
+
+// 2. Colors
+$color-primary: #007bff; // A vibrant, standard blue
+$color-secondary: #6c757d; // For secondary text and elements
+$color-success: #28a745;
+$color-danger: #dc3545;
+$color-warning: #ffc107;
+$color-info: #17a2b8;
+
+$color-light: #f8f9fa; // Light background
+$color-dark: #212529; // Dark text and elements
+$color-white: #ffffff;
+$color-border: #dee2e6;
+
+// 3. Spacing
+// A base unit for consistent margins and paddings
+$spacing-base: 6px;
+
+// 4. Borders & Shadows
+$border-radius: 6px;
+$box-shadow-sm: 0 0.125rem 0.25rem rgba($color-dark, 0.075);
+$box-shadow: 0 0.5rem 1rem rgba($color-dark, 0.15);

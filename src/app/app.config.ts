@@ -1,8 +1,42 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  isDevMode,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 
+import { provideState, provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+
+import { authFeature } from './features/auth/store/auth.reducer';
+import { AuthEffects } from './features/auth/store/auth.effects';
+
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(),
+
+    // 1. Register the global Store
+    provideStore(),
+
+    // 2. Register the Effects
+    provideEffects(AuthEffects),
+
+    // Register our 'auth' feature state with the global store
+    provideState(authFeature),
+
+    // 3. Register the Store DevTools and only enable it for development mode
+    provideStoreDevtools({
+      maxAge: 25, // Retains last 25 states
+      logOnly: !isDevMode(), // Restrict extension to log-only mode in production
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+      trace: false, // Don't log stack traces
+      traceLimit: 75, // Log limit
+    }),
+  ],
 };
