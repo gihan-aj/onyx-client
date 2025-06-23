@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthActions } from './auth.actions';
-import { catchError, exhaustMap, map, of } from 'rxjs';
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 
 @Injectable()
@@ -17,6 +17,7 @@ export class AuthEffects {
         this.authService
           .login(action.email, action.password, action.deviceId)
           .pipe(
+            tap((response) => console.log('RAW API RESPONSE:', response)),
             // If the API call is successful, transform the response and dispatch 'Login Success'
             map((response) => {
               // Create the User object for our state from the response
@@ -36,14 +37,14 @@ export class AuthEffects {
             }),
 
             // If the API call fails, dispatch 'Login Failure'
-            catchError((error) =>
-              of(
-                
+            catchError((error) => {
+              console.log('RAW API RESPONSE:', error);
+              return of(
                 AuthActions.loginFailure({
-                  error: error.error.message || 'Unknown authentication error',
+                  error: error.error.detail || 'Unknown authentication error',
                 })
-              )
-            )
+              );
+            })
           )
       )
     )
