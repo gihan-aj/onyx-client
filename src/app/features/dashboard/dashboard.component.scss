@@ -1,0 +1,37 @@
+@import "../../../styles/variables";
+
+:host {
+    display: block;
+    padding: $spacing-base * 4;
+}
+
+.dashboard-container {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-base * 3;
+    padding-bottom: $spacing-base * 2;
+    border-bottom: 1px solid $color-border;
+
+    h1 {
+        margin: 0;
+        font-size: 28px;
+    }
+}
+
+.content {
+    background-color: $color-white;
+    padding: $spacing-base * 3;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow-sm;
+
+    p {
+        font-size: $font-size-base;
+        line-height: 1.2;
+    }
+}

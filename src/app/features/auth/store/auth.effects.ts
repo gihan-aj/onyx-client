@@ -6,11 +6,8 @@ import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ProblemDetails,
-  ValidationProblemDetails,
-} from '../../../core/models/error.model';
 import { ErrorHandlingService } from '../../../core/services/error-handling.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -18,6 +15,7 @@ export class AuthEffects {
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
   private errorHandlingService = inject(ErrorHandlingService);
+  private router = inject(Router);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -62,5 +60,23 @@ export class AuthEffects {
     )
   );
 
-  // We will add an effect here to redirect the user after successful login
+  // Redirect to dashboard after successful login
+  loginSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.loginSuccess),
+        tap(() => this.router.navigate(['/dashboard']))
+      ),
+    { dispatch: false } // This effect does not dispatch a new action
+  );
+
+  // Redirect to login page after logout
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => this.router.navigate(['/login']))
+      ),
+    { dispatch: false }
+  );
 }

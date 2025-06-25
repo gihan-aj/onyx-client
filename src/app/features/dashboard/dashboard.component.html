@@ -1,0 +1,11 @@
+<div class="dashboard-container">
+    <div class="header">
+        <h1>Dashboard</h1>
+        <app-button color="secondary" (onClick)="logout()">Logout</app-button>
+    </div>
+    <div class="content" *ngIf="user$ | async as user">
+        <p>Welcome, <strong>{{ user.email }}</strong>!</p>
+        <p>Your User Code is: <strong>{{ user.userCode }}</strong></p>
+        <p>Your Access token will expire at: <strong>{{expiresAt$ | async | date:'medium'}}</strong></p>
+    </div>
+</div>
