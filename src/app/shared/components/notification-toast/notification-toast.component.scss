@@ -1,0 +1,48 @@
+@import "../../../../styles/variables";
+
+.toast {
+  display: flex;
+  align-items: center;
+  padding: $spacing-base * 1.5;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  color: $color-white;
+  margin-bottom: $spacing-base * 1.5;
+  width: 320px;
+  border-left: 5px solid;
+}
+
+.toast-success {
+  background: #2a3d31;
+  border-color: $color-success;
+}
+.toast-error {
+  background: #422c2e;
+  border-color: $color-danger;
+}
+.toast-info {
+  background: #233b41;
+  border-color: $color-info;
+}
+.toast-warning { background: #4a3821; border-color: $color-warning; }
+
+.icon-container {
+  font-size: 20px;
+  margin-right: $spacing-base * 1.5;
+  font-weight: bold;
+}
+
+.message {
+    flex-grow: 1;
+    font-size: $font-size-base;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: $color-white;
+    font-size: 24px;
+    opacity: 0.7;
+    cursor: pointer;
+    &:hover { opacity: 1;}
+}

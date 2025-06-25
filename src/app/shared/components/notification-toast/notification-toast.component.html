@@ -1,0 +1,11 @@
+<div class="toast toast-{{notification.type}}" [@state]="'visible'" (@state.done)="onAnimationDone($event)">
+    <div class="icon-container">
+        <!-- Icons can be replaced with SVGs or an icon library -->
+        <span *ngIf="notification.type === 'success'">✓</span>
+        <span *ngIf="notification.type === 'error'">!</span>
+        <span *ngIf="notification.type === 'info'">ℹ</span>
+        <span *ngIf="notification.type === 'warning'">⚠</span>
+    </div>
+    <div class="message">{{ notification.message }}</div>
+      <button class="close-button" (click)="close()">&times;</button>
+</div>

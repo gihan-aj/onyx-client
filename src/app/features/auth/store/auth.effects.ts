@@ -4,11 +4,20 @@ import { AuthService } from '../../../core/services/auth.service';
 import { AuthActions } from './auth.actions';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { User } from '../../../core/models/user.model';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  ProblemDetails,
+  ValidationProblemDetails,
+} from '../../../core/models/error.model';
+import { ErrorHandlingService } from '../../../core/services/error-handling.service';
 
 @Injectable()
 export class AuthEffects {
   private actions$ = inject(Actions);
   private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
+  private errorHandlingService = inject(ErrorHandlingService);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -27,6 +36,10 @@ export class AuthEffects {
                 userCode: response.userCode,
               };
 
+              this.notificationService.showSuccess(
+                'Login successful. Welcome!'
+              ); // Show success notification
+
               // Dispatch the success action with the new, correct payload
               return AuthActions.loginSuccess({
                 accessToken: response.token,
@@ -36,14 +49,13 @@ export class AuthEffects {
               });
             }),
 
-            // If the API call fails, dispatch 'Login Failure'
-            catchError((error) => {
-              console.log('RAW API RESPONSE:', error);
-              return of(
-                AuthActions.loginFailure({
-                  error: error.error.detail || 'Unknown authentication error',
-                })
-              );
+            // Updated catchError block
+            catchError((error: HttpErrorResponse) => {
+              // Use a helper function to parse the structured error from your backend
+              const errorMessage =
+                this.errorHandlingService.parseHttpError(error);
+              this.notificationService.showError(errorMessage);
+              return of(AuthActions.loginFailure({ error: errorMessage }));
             })
           )
       )

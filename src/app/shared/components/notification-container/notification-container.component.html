@@ -1,0 +1,7 @@
+<div class="notification-container">
+    <app-notification-toast
+      *ngFor="let notification of notifications; trackBy: trackById"
+      [notification]="notification"
+      (closed)="removeNotification($event)">
+    </app-notification-toast>
+  </div>
