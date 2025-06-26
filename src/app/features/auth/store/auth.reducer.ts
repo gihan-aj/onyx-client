@@ -60,7 +60,31 @@ export const authFeature = createFeature({
     })),
 
     // On logout, reset the entire state to its initial value
-    on(AuthActions.logout, (state) => initialState)
+    on(AuthActions.logout, (state) => initialState),
+
+    // Refresh token
+    on(AuthActions.refreshToken, (state) => ({ ...state, isLoading: true })),
+
+    on(
+      AuthActions.refreshTokenSuccess,
+      (state, { accessToken, expiresAt }) => ({
+        ...state,
+        isLoading: false,
+        accessToken,
+        accessTokenExpiresAt: expiresAt,
+      })
+    ),
+
+    on(AuthActions.refreshTokenFailure, (state, { error }) => ({
+      ...initialState, // On refresh failure, log the user out completely
+      error: error,
+    })),
+
+    // Hydrate from storage
+    on(AuthActions.hydrateAuthState, (state, hydratedState) => ({
+      ...state,
+      ...hydratedState,
+    }))
   ),
 });
 

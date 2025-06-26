@@ -20,5 +20,20 @@ export const AuthActions = createActionGroup({
 
     // Action dispactched by our Effect after a failed API call
     Logout: emptyProps(),
+
+    // Token refresh flow
+    'Refresh Token': emptyProps(),
+
+    'Refresh Token Success': props<{ accessToken: string; expiresAt: Date }>(),
+
+    'Refresh Token Failure': props<{ error: string }>(),
+
+    // Hydrate state from storage
+    'Hydrate Auth State': props<{
+      accessToken: string | null;
+      refreshTokn: string | null;
+      accessTokenExpiresAt: Date | null;
+      user: User | null;
+    }>(),
   },
 });

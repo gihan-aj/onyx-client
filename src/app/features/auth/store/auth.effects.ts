@@ -2,12 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthActions } from './auth.actions';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { catchError, exhaustMap, map, of, tap, withLatestFrom } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../core/services/error-handling.service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectRefreshToken } from './auth.reducer';
 
 @Injectable()
 export class AuthEffects {
@@ -16,6 +18,7 @@ export class AuthEffects {
   private notificationService = inject(NotificationService);
   private errorHandlingService = inject(ErrorHandlingService);
   private router = inject(Router);
+  private store = inject(Store);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -57,6 +60,40 @@ export class AuthEffects {
             })
           )
       )
+    )
+  );
+
+  refreshToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.refreshToken),
+      withLatestFrom(this.store.select(selectRefreshToken)),
+      exhaustMap(([action, refreshToken]) => {
+        if (!refreshToken) {
+          return of(
+            AuthActions.refreshTokenFailure({
+              error: 'No refresh token available',
+            })
+          );
+        }
+
+        return this.authService.refreshToken(refreshToken).pipe(
+          map((response) => {
+            this.notificationService.showSuccess('Session extended');
+            return AuthActions.refreshTokenSuccess({
+              accessToken: response.token,
+              expiresAt: new Date(response.tokenExpieryUtc),
+            });
+          }),
+          catchError((error: HttpErrorResponse) => {
+            const errorMessage =
+              this.errorHandlingService.parseHttpError(error);
+            this.notificationService.showError(
+              `Session expired: ${errorMessage}`
+            );
+            return of(AuthActions.refreshTokenFailure({ error: errorMessage }));
+          })
+        );
+      })
     )
   );
 
