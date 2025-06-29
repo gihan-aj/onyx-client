@@ -1,21 +1,21 @@
 @import 'variables';
 
-:host{
-    display: block;
-    margin-bottom: $spacing-base * 2.5;
+:host {
+  display: block;
+  margin-bottom: $spacing-base * 2.5;
 }
 
 .form-label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: $spacing-base;
+  display: block;
+  font-weight: 500;
+  margin-bottom: $spacing-base;
 }
 
-.content-wrapper {
-    position: relative;
+.control-wrapper {
+  position: relative;
 }
 
-// Add a red border when there is an error
+// Add a red border when there's an error
 :host-context(.ng-invalid.ng-touched) .control-wrapper ::ng-deep > * {
     border-color: $color-danger !important;
     &:focus {
@@ -24,7 +24,7 @@
 }
 
 .error-text {
-    color: $color-danger;
-    font-size: 12px;
-    padding-top: $spacing-base / 2;
+  color: $color-danger;
+  font-size: 12px;
+  padding-top: $spacing-base / 2;
 }
