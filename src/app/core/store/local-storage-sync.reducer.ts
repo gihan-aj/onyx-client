@@ -6,8 +6,8 @@ const AUTH_STATE_KEY = 'authState';
 export function localStorageSync(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return (action, state) => {
-    const nextState = reducer(action, state);
+  return (state, action) => {
+    const nextState = reducer(state, action);
 
     // After every action, check the action type
     if (
@@ -32,7 +32,11 @@ export function localStorageSync(
 }
 
 // Function to get the initial state from localStorage when the app loads
-export function getInitialAuthState(){
-    const savedState = localStorage.getItem(AUTH_STATE_KEY);
-    return savedState? JSON.parse(savedState) : undefined;
+export function getInitialAuthState() {
+  const savedState = localStorage.getItem(AUTH_STATE_KEY);
+  const parsedState = savedState ? JSON.parse(savedState) : undefined;
+  if (parsedState && parsedState.refreshToken) {
+    delete parsedState.refreshToken;
+  }
+  return parsedState;
 }

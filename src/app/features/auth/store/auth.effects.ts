@@ -9,7 +9,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandlingService } from '../../../core/services/error-handling.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectRefreshToken } from './auth.reducer';
 
 @Injectable()
 export class AuthEffects {
@@ -18,7 +17,6 @@ export class AuthEffects {
   private notificationService = inject(NotificationService);
   private errorHandlingService = inject(ErrorHandlingService);
   private router = inject(Router);
-  private store = inject(Store);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -39,13 +37,12 @@ export class AuthEffects {
 
               this.notificationService.showSuccess(
                 'Login successful. Welcome!'
-              ); // Show success notification
+              );
 
-              // Dispatch the success action with the new, correct payload
+              // Dispatch the success action with the new payload
               return AuthActions.loginSuccess({
                 accessToken: response.token,
-                refreshToken: response.refreshToken,
-                expiresAt: new Date(response.tokenExpieryUtc), // Convert string to Date object
+                expiresAt: new Date(response.tokenExpiryUtc), // Convert string to Date object
                 user: user,
               });
             }),
@@ -66,22 +63,21 @@ export class AuthEffects {
   refreshToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.refreshToken),
-      withLatestFrom(this.store.select(selectRefreshToken)),
-      exhaustMap(([action, refreshToken]) => {
-        if (!refreshToken) {
-          return of(
-            AuthActions.refreshTokenFailure({
-              error: 'No refresh token available',
-            })
-          );
-        }
-
-        return this.authService.refreshToken(refreshToken).pipe(
+      exhaustMap(() =>
+        this.authService.refreshToken().pipe(
           map((response) => {
-            this.notificationService.showSuccess('Session extended');
+            const user: User = {
+              id: response.userId,
+              email: response.email,
+              userCode: response.userCode,
+            };
+
+            this.notificationService.showSuccess('Session has been refreshed.');
+
             return AuthActions.refreshTokenSuccess({
               accessToken: response.token,
-              expiresAt: new Date(response.tokenExpieryUtc),
+              expiresAt: new Date(response.tokenExpiryUtc),
+              user: user,
             });
           }),
           catchError((error: HttpErrorResponse) => {
@@ -92,8 +88,8 @@ export class AuthEffects {
             );
             return of(AuthActions.refreshTokenFailure({ error: errorMessage }));
           })
-        );
-      })
+        )
+      )
     )
   );
 

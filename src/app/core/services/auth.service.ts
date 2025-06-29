@@ -8,8 +8,7 @@ export interface AuthResponse {
   email: string;
   userCode: string;
   token: string;
-  tokenExpieryUtc: string; // Changed from tokenExpieryUtc to match your casing
-  refreshToken: string;
+  tokenExpiryUtc: string;
 }
 
 @Injectable({
@@ -31,9 +30,11 @@ export class AuthService {
     });
   }
 
-  refreshToken(token: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/refresh-token`, {
-      refreshToken: token,
-    });
+  refreshToken(): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/refresh-token`,
+      {},
+      { withCredentials: true } // This tells the browser to send cookies
+    );
   }
 }
