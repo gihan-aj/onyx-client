@@ -2,7 +2,7 @@
 
 :host {
   display: block;
-  margin-bottom: $spacing-base * 2.5;
+  margin-bottom: $spacing-base / 2;
 }
 
 .form-label {
@@ -23,8 +23,14 @@
     }
 }
 
+.error-container {
+  // Reserve space for one line of error text, preventing layout shift.
+  // 1.4em is a good estimate for line height.
+  min-height: 1em;
+  padding-top: $spacing-base / 2;
+}
+
 .error-text {
   color: $color-danger;
-  font-size: 12px;
-  padding-top: $spacing-base / 2;
+  font-size: 11px; // Smaller font size as requested.
 }
