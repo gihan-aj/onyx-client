@@ -5,10 +5,18 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 import { Store } from '@ngrx/store';
 import { selectError, selectIsLoading } from '../store/auth.reducer';
 import { AuthActions } from '../store/auth.actions';
+import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
+import { CustomInputComponent } from '../../../shared/components/custom-input/custom-input.component';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ButtonComponent,
+    FormFieldComponent,
+    CustomInputComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -27,15 +35,15 @@ export class LoginComponent {
   error$ = this.store.select(selectError);
 
   onSubmit(): void {
-    if(this.loginForm.valid){
+    if (this.loginForm.valid) {
       const { email, password } = this.loginForm.getRawValue();
 
       // Simple device ID generation
       const deviceId = crypto.randomUUID();
 
-      if(email && password){
+      if (email && password) {
         // Dispatch the login action to NgRx store
-        this.store.dispatch(AuthActions.login({email, password, deviceId}))
+        this.store.dispatch(AuthActions.login({ email, password, deviceId }));
       }
     }
   }

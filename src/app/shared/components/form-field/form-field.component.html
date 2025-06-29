@@ -1,0 +1,12 @@
+<div class="form-field" [class.has-error]="hasError">
+  <label [for]="ngControl.name?.toString()" class="form-label">{{
+    label
+  }}</label>
+  <div class="control-wrapper">
+    <!-- The actual input component will be projected here -->
+    <ng-content></ng-content>
+  </div>
+  <div *ngIf="hasError" class="error-text">
+    {{ errorMessage }}
+  </div>
+</div>
