@@ -15,6 +15,7 @@ export class ErrorHandlingService {
    * @returns A user-friendly string.
    */
   public parseHttpError(error: HttpErrorResponse): string {
+    console.log('ErrorHandlingService.parseHttpError', error);
     // Case 1: The backend is down or there's a network issue.
     // The `error.error` will not be a server-generated object.
     if (error.status === 0 || error.error instanceof ProgressEvent) {

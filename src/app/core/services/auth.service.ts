@@ -17,7 +17,7 @@ export interface AuthResponse {
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrls.users;
+  private apiUrl = environment.apiUrls.auth;
 
   login(
     email: string,
