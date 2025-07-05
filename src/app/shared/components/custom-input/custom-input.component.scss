@@ -8,6 +8,7 @@
 .form-control {
   width: 100%;
   padding: ($spacing-base * 1.25);
+  padding-right: 40px; // Space for the icon
   border: 1px solid $color-border;
   border-radius: $border-radius;
   font-size: $font-size-base;
@@ -24,6 +25,21 @@
   &:disabled {
     background-color: #e9ecef;
     cursor: not-allowed;
+  }
+}
+
+.clickable-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: $color-secondary;
+  font-size: 20px;
+  transition: color 0.15s ease-in-out;
+
+  &:hover {
+    color: $color-dark;
   }
 }
 

@@ -1,36 +1,30 @@
-<div class="login-container">
-  <div class="login-card">
-    <h2 class="title">Welcome Back</h2>
-    <p class="subtitle">Please enter your details to sign in.</p>
+<div class="container" style="max-width: 420px;">
+  <div class="card">
+    <div class="text-center">
+      <h2 class="title">Welcome Back</h2>
+      <p class="subtitle">Please enter your details to sign in.</p>
+    </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
       <!-- Email Field -->
       <app-form-field label="Email">
-        <app-custom-input
-        id="email"
-          type="email"
-          placeholder="e.g., name@company.com"
-          formControlName="email">
+        <app-custom-input name="email" type="email" placeholder="e.g., name@company.com" formControlName="email">
         </app-custom-input>
       </app-form-field>
 
       <!-- Password Field -->
       <app-form-field label="Password">
-        <app-custom-input
-          id="password"
-          type="password"
-          placeholder="••••••••"
-          formControlName="password">
+        <app-custom-input name="password" [type]="passwordVisible? 'text' : 'password'" placeholder="••••••••"
+          formControlName="password" [clickableIconClass]="passwordVisible ? 'bx bx-hide' : 'bx bx-show'"
+          (iconClick)="togglePasswordVisibility()">
         </app-custom-input>
       </app-form-field>
 
-      <div class="form-actions">
+      <div class="form-actions mt-1">
         <app-button type="submit" color="primary" [loading]="(isLoading$ | async)!" [disabled]="!loginForm.valid">
           Sign In
         </app-button>
       </div>
-
     </form>
 
     <div class="footer-links">

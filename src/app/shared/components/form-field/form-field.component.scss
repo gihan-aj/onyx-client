@@ -16,21 +16,26 @@
 }
 
 // Add a red border when there's an error
-:host-context(.ng-invalid.ng-touched) .control-wrapper ::ng-deep > * {
-    border-color: $color-danger !important;
+// ONLY when the .form-field wrapper has the .has-error class.
+.form-field.has-error {
+  .control-wrapper ::ng-deep .form-control {
+    border-color: $color-danger;
+    // Also apply the error style on focus to override the default blue
     &:focus {
-        box-shadow: 0 0 0 2px rgba($color-danger, 0.25) !important;
+      border-color: $color-danger;
+      box-shadow: 0 0 0 2px rgba($color-danger, 0.25);
     }
+  }
 }
 
 .error-container {
   // Reserve space for one line of error text, preventing layout shift.
   // 1.4em is a good estimate for line height.
-  min-height: 1em;
-  padding-top: $spacing-base / 2;
+  min-height: 1.1em;
+  padding-top: $spacing-base / 4;
 }
 
 .error-text {
   color: $color-danger;
-  font-size: 11px; // Smaller font size as requested.
+  font-size: 11px; // Smaller font size 
 }

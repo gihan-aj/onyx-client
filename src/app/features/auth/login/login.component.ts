@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { Store } from '@ngrx/store';
@@ -21,8 +21,13 @@ import { CustomInputComponent } from '../../../shared/components/custom-input/cu
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  // This applies the .page-center utility class to the component's host element (<app-login>)
+  @HostBinding('class') classes = 'page-center';
+
   private fb = inject(FormBuilder);
   private store = inject(Store);
+
+  passwordVisible = false;
 
   // Create the form group with validators
   loginForm = this.fb.group({
@@ -32,7 +37,11 @@ export class LoginComponent {
 
   // Selectors to get data from the store
   isLoading$ = this.store.select(selectIsLoading);
-  error$ = this.store.select(selectError);
+  // error$ = this.store.select(selectError);
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
 
   onSubmit(): void {
     if (this.loginForm.valid) {

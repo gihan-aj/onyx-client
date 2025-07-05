@@ -1,0 +1,158 @@
+// First, let's define our responsive breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// 1. CONTAINER
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @media (min-width: $breakpoint-sm) {
+        max-width: 540px;
+    }
+
+    @media (min-width: $breakpoint-md) {
+        max-width: 720px;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+        max-width: 960px;
+    }
+
+    @media (min-width: $breakpoint-xl) {
+        max-width: 1140px;
+    }
+}
+
+.container-fluid {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+// 2. LAYOUT & UI PATTERNS
+.card {
+    background-color: $color-white;
+    padding: 2rem 1.5rem;
+    border-radius: $border-radius * 2;
+    box-shadow: $box-shadow;
+    border: 1px solid $color-border;
+}
+
+.page-center {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f2f5;
+    padding: 1rem;
+}
+
+// This is the class you correctly pointed out was missing.
+.form-actions {
+
+    // This class can be used as a container for form buttons.
+    // It doesn't need much styling itself, but acts as a clear semantic hook.
+    // We can add spacing to it using our margin utilities, like `.mt-4`.
+    app-button {
+        width: 100%;
+    }
+}
+
+
+// 3. TYPOGRAPHY
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: $spacing-base;
+    color: $color-primary;
+}
+
+.subtitle {
+    margin-bottom: $spacing-base * 3;
+    color: $color-secondary;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+// 4. FLEXBOX UTILITIES
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+
+// 5. SPACING & SIZING UTILITIES
+.w-full {
+    width: 100%;
+}
+
+$spacing-multipliers: (
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+);
+$spacing-properties: (
+    'm': 'margin',
+    'p': 'padding'
+);
+$spacing-directions: (
+    't': '-top',
+    'b': '-bottom',
+    'l': '-left',
+    'r': '-right',
+    'x': '-left' '-right',
+    'y': '-top' '-bottom'
+);
+
+@each $prop-key, $prop-value in $spacing-properties {
+    @each $multiplier in $spacing-multipliers {
+        .#{$prop-key}-#{$multiplier} {
+            #{$prop-value}: $spacing-base * $multiplier;
+        }
+    }
+
+    @each $dir-key, $dir-values in $spacing-directions {
+        @each $multiplier in $spacing-multipliers {
+            .#{$prop-key}#{$dir-key}-#{$multiplier} {
+                @each $dir-value in $dir-values {
+                    #{$prop-value}#{$dir-value}: $spacing-base * $multiplier;
+                }
+            }
+        }
+    }
+}

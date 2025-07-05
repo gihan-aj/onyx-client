@@ -1,52 +1,27 @@
 <div class="input-container">
-    <ng-container [ngSwitch]="type">
+  <ng-container [ngSwitch]="type === 'select'">
 
-      <!-- Case for standard text/password/email inputs -->
-      <input *ngSwitchCase="'text'"
-             [id]="name"
-             type="text"
-             class="form-control"
-             [placeholder]="placeholder"
-             [value]="value || ''"
-             [disabled]="isDisabled || loading"
-             (input)="onInputChange($event)">
+    <!-- Case for the select dropdown -->
+    <select *ngSwitchCase="'select'" [id]="name" class="form-control" [value]="value" [disabled]="isDisabled || loading"
+      (change)="onSelectionChange($event)">
+      <option [value]="null" disabled>{{ placeholder }}</option>
+      <option *ngFor="let option of options" [value]="option.value">
+        {{ option.label }}
+      </option>
+    </select>
 
-      <input *ngSwitchCase="'password'"
-             [id]="name"
-             type="password"
-             class="form-control"
-             [placeholder]="placeholder"
-             [value]="value || ''"
-             [disabled]="isDisabled || loading"
-             (input)="onInputChange($event)">
+    <input *ngSwitchDefault [id]="name" [type]="type" class="form-control" [placeholder]="placeholder"
+      [value]="value || ''" [disabled]="isDisabled || loading" (input)="onInputChange($event)">
 
-      <input *ngSwitchCase="'email'"
-             [id]="name"
-             type="email"
-             class="form-control"
-             [placeholder]="placeholder"
-             [value]="value || ''"
-             [disabled]="isDisabled || loading"
-             (input)="onInputChange($event)">
+  </ng-container>
 
-      <!-- Case for the select dropdown -->
-      <select *ngSwitchCase="'select'"
-              [id]="name"
-              class="form-control"
-              [value]="value"
-              [disabled]="isDisabled || loading"
-              (change)="onSelectionChange($event)">
-        <option [value]="null" disabled>{{ placeholder }}</option>
-        <option *ngFor="let option of options" [value]="option.value">
-          {{ option.label }}
-        </option>
-      </select>
+  <!-- Clickable Icon on the right -->
+  <i *ngIf="clickableIconClass && !loading" [class]="clickableIconClass" class="clickable-icon"
+    (click)="onIconClick($event)">
+  </i>
 
-    </ng-container>
-
-    <!-- Loading Spinner -->
-    <div *ngIf="loading" class="spinner-overlay">
-      <div class="spinner"></div>
-    </div>
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="spinner-overlay">
+    <div class="spinner"></div>
   </div>
-  
+</div>
