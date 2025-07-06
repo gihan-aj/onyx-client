@@ -18,6 +18,39 @@ export class AuthEffects {
   private errorHandlingService = inject(ErrorHandlingService);
   private router = inject(Router);
 
+  register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.register),
+      exhaustMap((action) =>
+        this.authService.register(action).pipe(
+          map(() => {
+            this.notificationService.showSuccess(
+              'Registration successful. Please check your email to activate your account.'
+            );
+            return AuthActions.registerSuccess({
+              email: action.email,
+            });
+          }),
+          catchError((error: HttpErrorResponse) => {
+            const errorMessage =
+              this.errorHandlingService.parseHttpError(error);
+            this.notificationService.showError(errorMessage);
+            return of(AuthActions.registerFailure({ error: errorMessage }));
+          })
+        )
+      )
+    )
+  );
+
+  registerSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.registerSuccess),
+        tap(() => this.router.navigate(['/awaiting-activation']))
+      ),
+    { dispatch: false }
+  );
+
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),

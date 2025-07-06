@@ -1,0 +1,21 @@
+<div class="container" style="max-width: 500px;">
+    <div class="card text-center">
+      <div class="icon-wrapper">
+        <i class='bx bx-mail-send'></i>
+      </div>
+      <h2 class="title">Check Your Email</h2>
+      <p class="subtitle" *ngIf="email$ | async as email">
+        We've sent an account activation link to <strong>{{ email }}</strong>. Please click the link in the email to activate your account.
+      </p>
+
+      <div class="mt-5">
+        <p class="text-secondary">Didn't receive the email?</p>
+        <app-button
+          color="secondary"
+          [loading]="(isLoading$ | async)!"
+          (onClick)="resend()">
+          Resend Activation Link
+        </app-button>
+      </div>
+    </div>
+  </div>

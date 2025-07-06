@@ -7,6 +7,7 @@ import { selectError, selectIsLoading } from '../store/auth.reducer';
 import { AuthActions } from '../store/auth.actions';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
 import { CustomInputComponent } from '../../../shared/components/custom-input/custom-input.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ import { CustomInputComponent } from '../../../shared/components/custom-input/cu
     ButtonComponent,
     FormFieldComponent,
     CustomInputComponent,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

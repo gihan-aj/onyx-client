@@ -9,6 +9,7 @@ export interface AuthState {
   user: User | null;
   isLoading: boolean;
   error: string | null;
+  pendingActivationEmail: string | null;
 }
 
 // Set the initial state when the app loads
@@ -18,6 +19,7 @@ export const initialState: AuthState = {
   user: null,
   isLoading: false,
   error: null,
+  pendingActivationEmail: null,
 };
 
 // The createFeature function is a modern way to create the reducer and selectors
@@ -49,6 +51,26 @@ export const authFeature = createFeature({
       accessToken: null,
       accessTokenExpiresAt: null,
       user: null,
+      error: error,
+    })),
+
+    // Register
+    on(AuthActions.register, (state) => ({
+      ...state,
+      isLoading: true,
+      error: null,
+    })),
+
+    on(AuthActions.registerSuccess, (state, { email }) => ({
+      ...state,
+      isLoading: false,
+      pendingActivationEmail: email,
+      error: null,
+    })),
+
+    on(AuthActions.registerFailure, (state, { error }) => ({
+      ...state,
+      isLoading: false,
       error: error,
     })),
 
@@ -90,4 +112,5 @@ export const {
   selectIsLoading,
   selectError,
   selectAuthState,
+  selectPendingActivationEmail,
 } = authFeature;

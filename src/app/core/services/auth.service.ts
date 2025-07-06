@@ -12,6 +12,14 @@ export interface AuthResponse {
   tokenExpiryUtc: string;
 }
 
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  firstName: string;
+  lastName: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,5 +45,20 @@ export class AuthService {
       {},
       { withCredentials: true } // This tells the browser to send cookies
     );
+  }
+
+  register(payLoad: RegisterRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/register`, payLoad);
+  }
+
+  resendActivation(email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/resend-activation`, { email });
+  }
+
+  activateAccount(token: string, email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/activate-account`, {
+      email,
+      token,
+    });
   }
 }

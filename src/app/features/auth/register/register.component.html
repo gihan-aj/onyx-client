@@ -1,0 +1,49 @@
+<div class="container" style="max-width: 480px">
+  <div class="card">
+    <div class="text-center">
+      <h2 class="title">Create an Account</h2>
+      <p class="subtitle">Let's get you started with your new account.</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="name-fields">
+        <app-form-field label="First Name" class="flex-grow">
+          <app-custom-input name="firstName" type="text" formControlName="firstName"></app-custom-input>
+        </app-form-field>
+        <app-form-field label="Last Name" class="flex-grow">
+          <app-custom-input type="text" formControlName="lastName"></app-custom-input>
+        </app-form-field>
+      </div>
+
+      <app-form-field label="Email">
+        <app-custom-input name="email" type="email" formControlName="email"></app-custom-input>
+      </app-form-field>
+
+      <app-form-field label="Password">
+        <app-custom-input name="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password"
+          [clickableIconClass]="passwordVisible ? 'bx bx-hide' : 'bx bx-show'"
+          (iconClick)="passwordVisible = !passwordVisible">
+        </app-custom-input>
+      </app-form-field>
+
+      <app-form-field label="Confirm Password" [customError]="passwordMismatchError">
+        <app-custom-input name="confirmPassword" [type]="confirmPasswordVisible ? 'text' : 'password'" formControlName="confirmPassword"
+          [clickableIconClass]="
+            confirmPasswordVisible ? 'bx bx-hide' : 'bx bx-show'
+          " (iconClick)="confirmPasswordVisible = !confirmPasswordVisible">
+        </app-custom-input>
+      </app-form-field>
+
+      <div class="form-actions mt-1">
+        <app-button type="submit" color="primary" [loading]="(isLoading$ | async)!" [disabled]="!registerForm.valid">
+          Create Account
+        </app-button>
+      </div>
+    </form>
+
+    <div class="footer-links mt-4">
+      <span class="text-secondary">Already have an account? </span>
+      <a routerLink="/login">Sign In</a>
+    </div>
+  </div>
+</div>

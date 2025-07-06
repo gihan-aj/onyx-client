@@ -1,0 +1,28 @@
+@import 'variables';
+
+.name-fields {
+  display: flex;
+  gap: $spacing-base * 2;
+}
+
+// This is needed to override the default min-height
+// when we want to show our custom password mismatch error.
+.error-text {
+  color: $color-danger;
+  font-size: 12px;
+  padding-top: $spacing-base / 2;
+}
+
+.footer-links {
+    text-align: center;
+    margin-top: $spacing-base * 3;
+    font-size: 13px;
+  
+    a {
+      color: $color-primary;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
