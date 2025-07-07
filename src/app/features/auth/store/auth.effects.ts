@@ -145,4 +145,46 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
+
+  resendActivation$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.resendActivation),
+      exhaustMap((action) =>
+        this.authService.resendActivation(action.email).pipe(
+          map(() => {
+            this.notificationService.showSuccess(
+              'A new activation link has been sent.'
+            );
+            return AuthActions.resendActivationSuccess();
+          }),
+          catchError((error: HttpErrorResponse) => {
+            const errorMessage =
+              this.errorHandlingService.parseHttpError(error);
+            this.notificationService.showError(errorMessage);
+            return of(
+              AuthActions.resendActivationFailure({ error: errorMessage })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  activateAccount$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.activateAccount),
+      exhaustMap((action) =>
+        this.authService.activateAccount(action.token, action.email).pipe(
+          map(() => AuthActions.activateAccountSuccess()),
+          catchError((error: HttpErrorResponse) => {
+            const errorMessage =
+              this.errorHandlingService.parseHttpError(error);
+            return of(
+              AuthActions.activateAccountFailure({ error: errorMessage })
+            );
+          })
+        )
+      )
+    )
+  );
 }

@@ -100,6 +100,37 @@ export const authFeature = createFeature({
     on(AuthActions.hydrateAuthState, (state, hydratedState) => ({
       ...state,
       ...hydratedState,
+    })),
+
+    // Activation
+    on(AuthActions.resendActivation, (state) => ({
+      ...state,
+      isLoading: true,
+      error: null,
+    })),
+    on(AuthActions.resendActivationSuccess, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
+    on(AuthActions.resendActivationFailure, (state, { error }) => ({
+      ...state,
+      isLoading: false,
+      error,
+    })),
+
+    on(AuthActions.activateAccount, (state) => ({
+      ...state,
+      isLoading: true,
+      error: null,
+    })),
+    on(AuthActions.activateAccountSuccess, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
+    on(AuthActions.activateAccountFailure, (state, { error }) => ({
+      ...state,
+      isLoading: false,
+      error,
     }))
   ),
 });

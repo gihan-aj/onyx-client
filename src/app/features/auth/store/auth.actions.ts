@@ -37,5 +37,13 @@ export const AuthActions = createActionGroup({
       accessTokenExpiresAt: Date | null;
       user: User | null;
     }>(),
+
+    // Activate Account Flow
+    'Resend Activation': props<{ email: string }>(),
+    'Resend Activation Success': emptyProps(),
+    'Resend Activation Failure': props<{ error: string }>(),
+    'Activate Account': props<{ token: string; email: string }>(),
+    'Activate Account Success': emptyProps(),
+    'Activate Account Failure': props<{ error: string }>(),
   },
 });

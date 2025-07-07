@@ -56,9 +56,13 @@ export class AuthService {
   }
 
   activateAccount(token: string, email: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/activate-account`, {
-      email,
-      token,
-    });
+    const url = `${this.apiUrl}/activate`;
+    const options = {
+      params: {
+        token: token,
+        email: email,
+      },
+    };
+    return this.http.get<void>(url, options);
   }
 }

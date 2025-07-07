@@ -1,0 +1,35 @@
+<div class="container" style="max-width: 500px;">
+    <div class="card text-center">
+        <!-- Loading State -->
+        <div *ngIf="isLoading$ | async; else result">
+            <div class="spinner-wrapper">
+                <div class="spinner"></div>
+            </div>
+            <h2 class="title">Activating Your Account...</h2>
+            <p class="subtitile">Please wait a moment.</p>
+        </div>
+
+        <!-- Result State (Success or Failure) -->
+        <ng-template #result>
+            <!-- Error State -->
+            <div *ngIf="(error$ | async) as error; else success">
+                <div class="icon-wrapper error">
+                    <i class="bx bx-x-circle"></i>
+                </div>
+                <h2 class="title">Activation Failed.</h2>
+                <p class="subtitile">{{error}}</p>
+                <app-button class="mt-4" routerLink="/login">Go to Login</app-button>
+            </div>
+
+            <!-- Success State -->
+             <ng-template #success>
+                <div class="icon-wrapper success">
+                    <i class="bx bx-check-circle"></i>
+                </div>
+                <h2 class="title">Account Activated!</h2>
+                <p class="subtitile">Your account has been successfully activated. You can now log in.</p>
+                <app-button class="mt-4" routerLink="/login">Proceed to Login</app-button>
+             </ng-template>
+        </ng-template>
+    </div>
+</div>
