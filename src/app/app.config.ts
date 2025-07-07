@@ -4,7 +4,7 @@ import {
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { routes } from './app.routes';
@@ -15,16 +15,18 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { authFeature } from './features/auth/store/auth.reducer';
 import { AuthEffects } from './features/auth/store/auth.effects';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { localStorageSync } from './core/store/local-storage-sync.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideAnimationsAsync(),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
 
     // 1. Register the global Store
-    provideStore(),
+    provideStore({}, { metaReducers: [localStorageSync] }),
 
     // 2. Register the Effects
     provideEffects(AuthEffects),
