@@ -5,6 +5,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { RegisterComponent } from './features/auth/register/register.component';
 import { AwaitingActivationComponent } from './features/auth/awaiting-activation/awaiting-activation.component';
 import { ActivateAccountComponent } from './features/auth/activate-account/activate-account.component';
+import { ResendActivationComponent } from './features/auth/resend-activation/resend-activation.component';
 
 export const routes: Routes = [
   // When the user goes to the root URL, show the LoginComponent
@@ -25,6 +26,7 @@ export const routes: Routes = [
   },
   { path: 'awaiting-activation', component: AwaitingActivationComponent },
   { path: 'activate-account', component: ActivateAccountComponent },
+  { path: 'resend-activation', component: ResendActivationComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

@@ -1,0 +1,27 @@
+<div class="container" style="max-width: 420px;">
+    <div class="card">
+        <div class="text-center">
+            <h2 class="title">Resend Activation Link</h2>
+            <p class="subtitle">Enter your email address and we'll send you a new link to activate your account.</p>
+        </div>
+
+        <form [formGroup]="resendForm" (ngSubmit)="onSubmit()">
+            <app-form-field label="Email">
+                <app-custom-input name="email" type="email" placeholder="e.g., name@company.com"
+                    formControlName="email">
+                </app-custom-input>
+            </app-form-field>
+
+            <div class="form-actions mt-1">
+                <app-button type="submit" color="primary" [loading]="(isLoading$ | async)!"
+                    [disabled]="!resendForm.valid">
+                    Send Link
+                </app-button>
+            </div>
+        </form>
+
+        <div class="footer-links">
+            <a routerLink="/login">Back to Login</a>
+        </div>
+    </div>
+</div>
