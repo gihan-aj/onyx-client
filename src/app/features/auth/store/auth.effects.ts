@@ -187,4 +187,61 @@ export class AuthEffects {
       )
     )
   );
+
+  requestPasswordReset$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.requestPasswordReset),
+      exhaustMap((action) =>
+        this.authService.requestPasswordReset(action.email).pipe(
+          map(() => {
+            this.notificationService.showSuccess(
+              'If an account with that email exists, a reset link has been sent.'
+            );
+            return AuthActions.requestPasswordResetSuccess();
+          }),
+          catchError((error: HttpErrorResponse) => {
+            const errorMessage =
+              this.errorHandlingService.parseHttpError(error);
+            this.notificationService.showError(errorMessage);
+            return of(
+              AuthActions.requestPasswordResetFailure({ error: errorMessage })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  resetPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.resetPassword),
+      exhaustMap((action) =>
+        this.authService.resetPassword(action).pipe(
+          map(() => {
+            this.notificationService.showSuccess(
+              'Your password has been reset successfully. Please log in.'
+            );
+            return AuthActions.resetPasswordSuccess();
+          }),
+          catchError((error: HttpErrorResponse) => {
+            const errorMessage =
+              this.errorHandlingService.parseHttpError(error);
+            this.notificationService.showError(errorMessage);
+            return of(
+              AuthActions.resetPasswordFailure({ error: errorMessage })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  resetPasswordSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.resetPasswordSuccess),
+        tap(() => this.router.navigate(['/login']))
+      ),
+    { dispatch: false }
+  );
 }

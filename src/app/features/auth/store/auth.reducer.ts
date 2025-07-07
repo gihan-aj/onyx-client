@@ -131,6 +131,37 @@ export const authFeature = createFeature({
       ...state,
       isLoading: false,
       error,
+    })),
+
+    // Password reset
+    on(AuthActions.requestPasswordReset, (state) => ({
+      ...state,
+      isLoading: true,
+      error: null,
+    })),
+    on(AuthActions.requestPasswordResetSuccess, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
+    on(AuthActions.requestPasswordResetFailure, (state, { error }) => ({
+      ...state,
+      isLoading: false,
+      error,
+    })),
+
+    on(AuthActions.resetPassword, (state) => ({
+      ...state,
+      isLoading: true,
+      error: null,
+    })),
+    on(AuthActions.resetPasswordSuccess, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
+    on(AuthActions.resetPasswordFailure, (state, { error }) => ({
+      ...state,
+      isLoading: false,
+      error,
     }))
   ),
 });

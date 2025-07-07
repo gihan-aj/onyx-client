@@ -1,6 +1,9 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { User } from '../../../core/models/user.model';
-import { RegisterRequest } from '../../../core/services/auth.service';
+import {
+  RegisterRequest,
+  ResetPasswordRequest,
+} from '../../../core/services/auth.service';
 
 export const AuthActions = createActionGroup({
   source: 'Auth', // Feature name
@@ -45,5 +48,13 @@ export const AuthActions = createActionGroup({
     'Activate Account': props<{ token: string; email: string }>(),
     'Activate Account Success': emptyProps(),
     'Activate Account Failure': props<{ error: string }>(),
+
+    // Password reset flow
+    'Request Password Reset': props<{ email: string }>(),
+    'Request Password Reset Success': emptyProps(),
+    'Request Password Reset Failure': props<{ error: string }>(),
+    'Reset Password': props<ResetPasswordRequest>(),
+    'Reset Password Success': emptyProps(),
+    'Reset Password Failure': props<{ error: string }>(),
   },
 });

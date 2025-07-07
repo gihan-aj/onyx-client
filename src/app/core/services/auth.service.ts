@@ -20,6 +20,13 @@ export interface RegisterRequest {
   lastName: string;
 }
 
+export interface ResetPasswordRequest {
+  email: string;
+  token: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -64,5 +71,15 @@ export class AuthService {
       },
     };
     return this.http.get<void>(url, options);
+  }
+
+  requestPasswordReset(email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/request-password-reset`, {
+      email,
+    });
+  }
+
+  resetPassword(payload: ResetPasswordRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/reset-password`, payload);
   }
 }
