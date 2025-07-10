@@ -244,4 +244,28 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
+
+  // This effect runs when the state is hydrated from local storage when app startup
+  hydrate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.hydrateAuthState),
+      map((action) => {
+        // Check if the hydrated token is expired or close to expiring (within 5 minutes)
+        const now = new Date();
+        const expiredAt = action.accessTokenExpiresAt
+          ? new Date(action.accessTokenExpiresAt)
+          : null;
+
+        // If we have an expiration date and it is in the past, trigger a refresh
+        if (expiredAt && expiredAt.getTime() < now.getTime()) {
+          return AuthActions.refreshToken();
+        }
+
+        // If the token is valid, we don't need to do anything, so we dispatch a "do nothing" action.
+        // A better approach would be to have an action that signifies hydration is complete.
+        // For now, we can just return an action that has no reducer.
+        return { type: '[Auth] Hydration Complete' };
+      })
+    )
+  );
 }
