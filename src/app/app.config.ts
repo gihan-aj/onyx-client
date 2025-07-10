@@ -1,4 +1,5 @@
 import {
+  APP_INITIALIZER,
   ApplicationConfig,
   isDevMode,
   provideZoneChangeDetection,
@@ -9,7 +10,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { routes } from './app.routes';
 
-import { provideState, provideStore } from '@ngrx/store';
+import { provideState, provideStore, Store } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
@@ -17,6 +18,7 @@ import { authFeature } from './features/auth/store/auth.reducer';
 import { AuthEffects } from './features/auth/store/auth.effects';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { localStorageSync } from './core/store/local-storage-sync.reducer';
+import { appInitializerFactory } from './core/store/app-init.factory';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +27,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
 
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [Store], // The factory depends on the NgRx Store
+      multi: true,
+    },
     // 1. Register the global Store
     provideStore({}, { metaReducers: [localStorageSync] }),
 

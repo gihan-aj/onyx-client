@@ -1,25 +1,33 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectAccessToken } from '../../features/auth/store/auth.reducer';
-import { map, take } from 'rxjs';
+import {
+  selectAccessToken,
+  selectIsLoading,
+} from '../../features/auth/store/auth.reducer';
+import { filter, map, switchMap, take } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const store = inject(Store);
   const router = inject(Router);
-  
-  // Check the store for an access token
-  return store.select(selectAccessToken).pipe(
-    take(1), // Take the first valaue and then completes the observable
-    map(token => {
-      if(token){
-        // if token exists allow navigation
+
+  // Wait for the initial loading process to finish
+  return store.select(selectIsLoading).pipe(
+    // Wait until loading is finished
+    filter((isLoading) => !isLoading),
+    // Take the firat value that matches
+    take(1),
+    // Check the access token
+    switchMap(() => store.select(selectAccessToken)),
+    map((token) => {
+      if (token) {
+        // if token exists after loading, allow navigation
         return true;
       }
 
       // If no token, redirect to the login page and block navigation
-      router.navigate(['/login'])
+      router.navigate(['/login']);
       return false;
     })
-  )
+  );
 };
