@@ -26,7 +26,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       setHeaders: {
         Authorization: `Bearer ${token}`,
       },
-      withCredentials: true,
+      // withCredentials: true,
     });
 
     // Pass the cloned request to the next handler

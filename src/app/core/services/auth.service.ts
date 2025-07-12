@@ -39,11 +39,15 @@ export class AuthService {
     password: string,
     deviceId: string
   ): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, {
-      email,
-      password,
-      deviceId,
-    });
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/login`,
+      {
+        email,
+        password,
+        deviceId,
+      },
+      { withCredentials: true }
+    );
   }
 
   refreshToken(): Observable<AuthResponse> {
