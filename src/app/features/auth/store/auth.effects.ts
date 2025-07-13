@@ -136,16 +136,6 @@ export class AuthEffects {
     { dispatch: false } // This effect does not dispatch a new action
   );
 
-  // Redirect to login page after logout
-  logout$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.logout),
-        tap(() => this.router.navigate(['/login']))
-      ),
-    { dispatch: false }
-  );
-
   resendActivation$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.resendActivation),
@@ -267,5 +257,34 @@ export class AuthEffects {
         return { type: '[Auth] Hydration Complete' };
       })
     )
+  );
+
+  // Initial dispatch of the logout action
+  initiateLogout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      exhaustMap(() =>
+        this.authService.logout().pipe(
+          map(() => AuthActions.logoutSuccess()),
+          catchError(() => {
+            // Even if the backend call fails, we should still log the user out on the client.
+            return of(AuthActions.logoutSuccess());
+          })
+        )
+      )
+    )
+  );
+
+  // Cleanup and redirection after logout is successful
+  logoutSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logoutSuccess, AuthActions.refreshTokenFailure),
+        tap(() => {
+          this.notificationService.showInfo('You have been logged out.');
+          this.router.navigate(['/login']);
+        })
+      ),
+    { dispatch: false }
   );
 }

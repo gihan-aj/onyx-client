@@ -24,6 +24,7 @@ export const AuthActions = createActionGroup({
 
     // Logout Flow
     Logout: emptyProps(),
+    'Logout Success': emptyProps(),
 
     // Token Refresh Flow
     'Refresh Token': emptyProps(),

@@ -75,7 +75,7 @@ export const authFeature = createFeature({
     })),
 
     // On logout, reset the entire state to its initial value
-    on(AuthActions.logout, () => initialState),
+    on(AuthActions.logoutSuccess, () => initialState),
 
     // Refresh token
     on(AuthActions.refreshToken, (state) => ({ ...state, isLoading: true })),

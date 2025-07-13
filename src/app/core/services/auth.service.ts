@@ -86,4 +86,13 @@ export class AuthService {
   resetPassword(payload: ResetPasswordRequest): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/reset-password`, payload);
   }
+
+  logout(): Observable<void> {
+    // Should send back a header to clear the HttpOnly cookie.
+    return this.http.post<void>(
+      `${this.apiUrl}/logout`,
+      {},
+      { withCredentials: true }
+    );
+  }
 }
