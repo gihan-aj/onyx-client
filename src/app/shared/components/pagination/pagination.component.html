@@ -1,0 +1,21 @@
+<div class="pagination-container" *ngIf="totalCount > 0">
+  <div class="info-text">
+    Showing <strong>{{ startItem }}</strong> to <strong>{{ endItem }}</strong> of <strong>{{ totalCount }}</strong> results
+  </div>
+  <div class="controls">
+    <button
+      class="nav-button"
+      [disabled]="currentPage === 1"
+      (click)="goToPage(currentPage - 1)">
+      <i class='bx bx-chevron-left'></i>
+      <span>Previous</span>
+    </button>
+    <button
+      class="nav-button"
+      [disabled]="currentPage === totalPages"
+      (click)="goToPage(currentPage + 1)">
+      <span>Next</span>
+      <i class='bx bx-chevron-right'></i>
+    </button>
+  </div>
+</div>

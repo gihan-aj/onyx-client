@@ -1,0 +1,55 @@
+@import 'variables';
+
+:host {
+  display: block;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-base * 2 0;
+  font-size: 14px;
+  color: $color-secondary;
+}
+
+.info-text {
+  strong {
+    color: $color-dark;
+    font-weight: 500;
+  }
+}
+
+.controls {
+  display: flex;
+  gap: $spacing-base;
+}
+
+.nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-base / 2;
+  padding: $spacing-base ($spacing-base * 1.5);
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  font-weight: 500;
+  color: $color-secondary;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+
+  i {
+    font-size: 20px;
+  }
+
+  &:not(:disabled):hover {
+    border-color: darken($color-border, 10%);
+    color: $color-dark;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

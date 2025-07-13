@@ -58,7 +58,6 @@ export class AuthEffects {
         this.authService
           .login(action.email, action.password, action.deviceId)
           .pipe(
-            tap((response) => console.log('RAW API RESPONSE:', response)),
             // If the API call is successful, transform the response and dispatch 'Login Success'
             map((response) => {
               // Create the User object for our state from the response
@@ -66,6 +65,11 @@ export class AuthEffects {
                 id: response.userId,
                 email: response.email,
                 userCode: response.userCode,
+                firstName: null,
+                lastName: null,
+                isActive: true,
+                lastLoginAtUtc: null,
+                createdAtUtc: null,
               };
 
               this.notificationService.showSuccess(
@@ -103,6 +107,11 @@ export class AuthEffects {
               id: response.userId,
               email: response.email,
               userCode: response.userCode,
+              firstName: null,
+              lastName: null,
+              isActive: true,
+              lastLoginAtUtc: null,
+              createdAtUtc: null,
             };
 
             this.notificationService.showSuccess('Session has been refreshed.');

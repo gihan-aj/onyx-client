@@ -1,5 +1,10 @@
 export interface User {
-  id: string; // Mapped from 'userId' in the response
-  email: string;
+  id: string;
   userCode: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  isActive: boolean;
+  createdAtUtc: Date | null;
+  lastLoginAtUtc: Date | null;
 }

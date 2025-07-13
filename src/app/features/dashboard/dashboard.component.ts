@@ -9,7 +9,7 @@ import { AuthActions } from '../auth/store/auth.actions';
   selector: 'app-dashboard',
   imports: [CommonModule, ButtonComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
   private store = inject(Store);
@@ -18,6 +18,6 @@ export class DashboardComponent {
   expiresAt$ = this.store.select(selectAccessTokenExpiresAt);
 
   logout(): void {
-    this.store.dispatch(AuthActions.logout())
+    this.store.dispatch(AuthActions.logout());
   }
 }
