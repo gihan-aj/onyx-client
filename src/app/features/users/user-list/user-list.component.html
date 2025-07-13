@@ -18,3 +18,22 @@
         </app-pagination>
     </div>
 </div>
+
+<!-- Custom Templates for our Data Table -->
+
+<!-- Template for the 'Status' column -->
+<ng-template #statusTpl let-user>
+  <app-status-badge [active]="user.isActive"></app-status-badge>
+</ng-template>
+
+<!-- Template for the 'Actions' column -->
+<ng-template #actionsTpl let-user>
+  <div class="action-buttons">
+    <button class="action-btn" (click)="editUser(user)" title="Edit User">
+      <i class='bx bxs-edit'></i>
+    </button>
+    <button class="action-btn action-btn-danger" (click)="deleteUser(user)" title="Delete User">
+      <i class='bx bx-trash'></i>
+    </button>
+  </div>
+</ng-template>
