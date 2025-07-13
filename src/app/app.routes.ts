@@ -10,6 +10,7 @@ import { RequestPasswordResetComponent } from './features/auth/request-password-
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { publicGuard } from './core/guards/public.guard';
 import { LayoutComponent } from './core/layout/layout.component';
+import { UserListComponent } from './features/users/user-list/user-list.component';
 
 export const routes: Routes = [
   // Public routes that are only for unauthenticated users
@@ -40,8 +41,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
-      // Add other protected routes here, e.g., { path: 'users', ... }
-      // The default authenticated route
+      { path: 'users', component: UserListComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

@@ -41,7 +41,7 @@
     background: none;
     border: none;
     color: $color-white;
-    font-size: 24px;
+    font-size: $font-size-base * 2;
     opacity: 0.7;
     cursor: pointer;
     &:hover { opacity: 1;}

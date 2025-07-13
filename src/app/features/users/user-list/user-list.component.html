@@ -1,1 +1,20 @@
-<p>user-list works!</p>
+<div class="page-header">
+    <h1 class="title">User Management</h1>
+    <!-- Add User button will go here -->
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">All Users</h3>
+        <!-- Search input will go here -->
+    </div>
+    <div class="card-body">
+        <app-data-table [data]="users$ | async" [columns]="columns" [isLoading]="(isLoading$ | async)!">
+        </app-data-table>
+    </div>
+    <div class="card-footer" *ngIf="(paginationData$ | async) as pagination">
+        <app-pagination [currentPage]="pagination.currentPage" [pageSize]="pagination.pageSize"
+            [totalCount]="pagination.totalCount" (pageChange)="onPageChange($event)">
+        </app-pagination>
+    </div>
+</div>

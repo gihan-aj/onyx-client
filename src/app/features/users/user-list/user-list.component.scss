@@ -1,0 +1,48 @@
+@import 'variables';
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-base * 3;
+}
+
+.title {
+    font-size: $font-size-base * 2;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card {
+    padding: 0; // Override default card padding
+}
+
+.card-header,
+.card-footer,
+.card-body {
+    padding: ($spacing-base * 2) ($spacing-base * 3);
+}
+
+.card-header {
+    border-bottom: 1px solid $color-border;
+}
+
+.card-footer {
+    border-top: 1px solid $color-border;
+    background-color: #f8f9fa;
+    border-bottom-left-radius: $border-radius * 2;
+    border-bottom-right-radius: $border-radius * 2;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+// Override table wrapper styles for this context
+.card-body ::ng-deep .table-wrapper {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}

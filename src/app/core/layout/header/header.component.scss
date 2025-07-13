@@ -16,7 +16,7 @@
 .sidebar-toggle {
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: $font-size-base * 2;
     cursor: pointer;
     color: $color-secondary;
     margin-right: $spacing-base * 2;

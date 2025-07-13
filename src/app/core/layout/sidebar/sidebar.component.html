@@ -11,7 +11,13 @@
                     <span class="link-text" *ngIf="!isCollapsed">Dashboard</span>
                 </a>
             </li>
-            <!-- Add other links here, e.g., User Management -->
+            
+            <li>
+                <a routerLink="/users" routerLinkActive="active">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link-text" *ngIf="!isCollapsed">Users</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </div>

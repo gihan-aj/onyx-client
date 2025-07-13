@@ -9,7 +9,7 @@
 // when we want to show our custom password mismatch error.
 .error-text {
   color: $color-danger;
-  font-size: 12px;
+  font-size: $font-size-base * 0.9;
   padding-top: $spacing-base / 2;
 }
 

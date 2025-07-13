@@ -21,17 +21,17 @@ $active-bg: $color-primary;
 .logo-area {
     display: flex;
     align-items: center;
-    padding: 0 24px;
-    height: 64px; // Same as header height
+    padding: 0 14px;
+    height: 50px; // Same as header height
     white-space: nowrap;
 
     i {
-        font-size: 32px;
+        font-size: $font-size-base * 2.5;
         color: $color-primary;
     }
 
     .logo-text {
-        font-size: 20px;
+        font-size: $font-size-base * 1.8;
         font-weight: 600;
         margin-left: 12px;
         color: $sidebar-text-hover;
@@ -47,19 +47,20 @@ $active-bg: $color-primary;
 .nav-area a {
     display: flex;
     align-items: center;
-    padding: 16px 24px;
+    padding: 10px 14px;
     color: $sidebar-text;
     text-decoration: none;
     transition: background-color 0.2s, color 0.2s;
     white-space: nowrap;
 
     i {
-        font-size: 24px;
+        font-size: $font-size-base * 2;
     }
 
     .link-text {
         margin-left: 16px;
         font-weight: 500;
+        font-size: $font-size-base * 1.2;
     }
 
     &:hover {
