@@ -9,45 +9,43 @@ import { ResendActivationComponent } from './features/auth/resend-activation/res
 import { RequestPasswordResetComponent } from './features/auth/request-password-reset/request-password-reset.component';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password.component';
 import { publicGuard } from './core/guards/public.guard';
+import { LayoutComponent } from './core/layout/layout.component';
 
 export const routes: Routes = [
-  // Default route now redirects to the dashboard.
-  // The guards will handle redirecting to login if necessary.
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-
-  // --- Public Routes ---
-  // These routes should only be accessible to unauthenticated users.
-  { path: 'login', component: LoginComponent, canActivate: [publicGuard] },
+  // Public routes that are only for unauthenticated users
   {
-    path: 'register',
-    component: RegisterComponent,
+    path: '',
     canActivate: [publicGuard],
-  },
-  {
-    path: 'resend-activation',
-    component: ResendActivationComponent,
-    canActivate: [publicGuard],
-  },
-  {
-    path: 'request-password-reset',
-    component: RequestPasswordResetComponent,
-    canActivate: [publicGuard],
-  },
-  {
-    path: 'reset-password',
-    component: ResetPasswordComponent,
-    canActivate: [publicGuard],
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'resend-activation', component: ResendActivationComponent },
+      {
+        path: 'request-password-reset',
+        component: RequestPasswordResetComponent,
+      },
+      { path: 'reset-password', component: ResetPasswordComponent },
+    ],
   },
 
-  // --- Static Routes (no guard needed for now) ---
+  // Static routes that don't need a specific guard
   { path: 'awaiting-activation', component: AwaitingActivationComponent },
   { path: 'activate-account', component: ActivateAccountComponent },
 
-  // --- Protected Routes ---
-  // These routes are only for authenticated users.
+  // --- Authenticated Routes ---
+  // All routes within this section will use the LayoutComponent as their shell
   {
-    path: 'dashboard',
-    component: DashboardComponent,
+    path: '',
+    component: LayoutComponent,
     canActivate: [authGuard],
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      // Add other protected routes here, e.g., { path: 'users', ... }
+      // The default authenticated route
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
   },
+
+  // Fallback route
+  { path: '**', redirectTo: 'dashboard' },
 ];

@@ -1,0 +1,59 @@
+@import 'variables';
+@import 'utilities';
+
+$sidebar-width: 240px;
+$sidebar-collapsed-width: 80px;
+$header-height: 64px;
+$transition-speed: 0.3s;
+
+:host {
+    display: block;
+    height: 100vh;
+    background-color: #f4f7fa; // A light background for the content area
+}
+
+.app-layout {
+    display: grid;
+    height: 100%;
+    grid-template-columns: $sidebar-width 1fr;
+    grid-template-rows: $header-height 1fr;
+    grid-template-areas:
+        "sidebar header"
+        "sidebar content";
+    transition: grid-template-columns $transition-speed ease-in-out;
+
+    &.sidebar-collapsed {
+        grid-template-columns: $sidebar-collapsed-width 1fr;
+    }
+}
+
+.app-sidebar {
+    grid-area: sidebar;
+}
+
+.app-header {
+    grid-area: header;
+}
+
+.app-content {
+    grid-area: content;
+    overflow-y: auto;
+    padding: $spacing-base * 3;
+}
+
+// Responsive layout for smaller screens
+@media (max-width: $breakpoint-md) {
+    .app-layout {
+        // On mobile, the header spans the full width and sidebar is hidden
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "content";
+
+        .app-sidebar {
+            // Logic to show/hide sidebar on mobile would go here (e.g., transform: translateX(-100%))
+            // For now, we'll just hide it.
+            display: none;
+        }
+    }
+}

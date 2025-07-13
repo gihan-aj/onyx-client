@@ -1,0 +1,17 @@
+<div class="sidebar-container">
+    <div class="logo-area">
+        <i class='bx bxs-analyse'></i>
+        <span class="logo-text" *ngIf="!isCollapsed">ONYX ERP</span>
+    </div>
+    <nav class="nav-area">
+        <ul>
+            <li>
+                <a routerLink="/dashboard" routerLinkActive="active">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="link-text" *ngIf="!isCollapsed">Dashboard</span>
+                </a>
+            </li>
+            <!-- Add other links here, e.g., User Management -->
+        </ul>
+    </nav>
+</div>

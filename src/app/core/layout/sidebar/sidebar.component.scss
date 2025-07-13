@@ -1,0 +1,74 @@
+@import 'variables';
+
+$sidebar-bg: #1e293b; // A dark slate color
+$sidebar-text: #cbd5e1;
+$sidebar-text-hover: $color-white;
+$active-bg: $color-primary;
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+.sidebar-container {
+    height: 100%;
+    background-color: $sidebar-bg;
+    color: $sidebar-text;
+    transition: width 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    height: 64px; // Same as header height
+    white-space: nowrap;
+
+    i {
+        font-size: 32px;
+        color: $color-primary;
+    }
+
+    .logo-text {
+        font-size: 20px;
+        font-weight: 600;
+        margin-left: 12px;
+        color: $sidebar-text-hover;
+    }
+}
+
+.nav-area ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-area a {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    color: $sidebar-text;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+
+    i {
+        font-size: 24px;
+    }
+
+    .link-text {
+        margin-left: 16px;
+        font-weight: 500;
+    }
+
+    &:hover {
+        background-color: lighten($sidebar-bg, 5%);
+        color: $sidebar-text-hover;
+    }
+
+    &.active {
+        background-color: $active-bg;
+        color: $color-white;
+    }
+}

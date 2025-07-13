@@ -1,0 +1,27 @@
+@import 'variables';
+
+:host {
+    display: block;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    padding: 0 $spacing-base * 3;
+    height: 100%;
+    background-color: $color-white;
+    border-bottom: 1px solid $color-border;
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: $color-secondary;
+    margin-right: $spacing-base * 2;
+
+    &:hover {
+        color: $color-dark;
+    }
+}
