@@ -21,6 +21,9 @@ import { map } from 'rxjs';
 import { User } from '../../../core/models/user.model';
 import { UsersActions } from '../store/users.actions';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { ModalService } from '../../../shared/services/modal.service';
+import { UserFormComponent } from '../components/user-form/user-form.component';
 
 @Component({
   selector: 'app-user-list',
@@ -29,12 +32,14 @@ import { StatusBadgeComponent } from '../../../shared/components/status-badge/st
     DataTableComponent,
     PaginationComponent,
     StatusBadgeComponent,
+    ButtonComponent,
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
 })
 export class UserListComponent implements OnInit {
   private store = inject(Store);
+  private modalService = inject(ModalService);
 
   @ViewChild('statusTpl', { static: true }) statusTpl!: TemplateRef<any>;
   @ViewChild('actionsTpl', { static: true }) actionsTpl!: TemplateRef<any>;
@@ -51,14 +56,7 @@ export class UserListComponent implements OnInit {
     }))
   );
 
-  columns: TableColumn<User>[] = [
-    // { key: 'userCode', title: 'User Code' },
-    // { key: 'email', title: 'Email' },
-    // { key: 'firstName', title: 'First Name' },
-    // { key: 'lastName', title: 'Last Name' },
-    // { key: 'isActive', title: 'Status' },
-    // { key: 'actions', title: 'Actions' },
-  ];
+  columns: TableColumn<User>[] = [];
 
   ngOnInit(): void {
     this.loadUsers(1);
@@ -66,14 +64,16 @@ export class UserListComponent implements OnInit {
 
   ngAfterViewInit(): void {
     // We define the columns here, after the view (and templates) are initialized
-    this.columns = [
-      { key: 'userCode', title: 'User Code' },
-      { key: 'email', title: 'Email' },
-      { key: 'firstName', title: 'First Name' },
-      { key: 'lastName', title: 'Last Name' },
-      { key: 'isActive', title: 'Status', customTpl: this.statusTpl }, // Assign the template
-      { key: 'actions', title: 'Actions', customTpl: this.actionsTpl }, // Assign the template
-    ];
+    setTimeout(() => {
+      this.columns = [
+        { key: 'userCode', title: 'User Code' },
+        { key: 'email', title: 'Email' },
+        { key: 'firstName', title: 'First Name' },
+        { key: 'lastName', title: 'Last Name' },
+        { key: 'isActive', title: 'Status', customTpl: this.statusTpl }, // Assign the template
+        { key: 'actions', title: 'Actions', customTpl: this.actionsTpl }, // Assign the template
+      ];
+    });
   }
 
   loadUsers(page: number): void {
@@ -84,6 +84,25 @@ export class UserListComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.loadUsers(page);
+  }
+
+  openUserForm(user?: User) {
+    const modalRef = this.modalService.open(UserFormComponent, {
+      title: user ? 'Edit User' : 'Create New User',
+      data: { user },
+    });
+
+    modalRef.subscribe((formData) => {
+      if (formData) {
+        if (user) {
+          // This is where we would dispatch an "Update User" action
+          console.log('Updating user:', { ...user, ...formData });
+        } else {
+          // This is where we would dispatch a "Create User" action
+          console.log('Creating user:', formData);
+        }
+      }
+    });
   }
 
   // Methods for actions (we'll wire these up later)

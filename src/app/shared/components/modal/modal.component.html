@@ -1,0 +1,14 @@
+<div class="modal-backdrop" (click)="close()" @backdropFade></div>
+
+<div class="modal-dialog" @modalSlide>
+  <div class="modal-header">
+    <h3 class="modal-title">{{ title }}</h3>
+    <button class="close-button" (click)="close()">
+      <i class='bx bx-x'></i>
+    </button>
+  </div>
+  <div class="modal-content">
+    <!-- The dynamic component (e.g., UserFormComponent) will be rendered here -->
+    <ng-container #content></ng-container>
+  </div>
+</div>

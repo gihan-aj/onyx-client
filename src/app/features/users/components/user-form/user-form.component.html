@@ -1,0 +1,30 @@
+<form [formGroup]="userForm" (ngSubmit)="onSave()">
+  <div class="name-fields">
+    <app-form-field label="First Name" class="flex-grow">
+      <app-custom-input type="text" name="firstName" formControlName="firstName"></app-custom-input>
+    </app-form-field>
+    <app-form-field label="Last Name" class="flex-grow">
+      <app-custom-input type="text" name="lastName" formControlName="lastName"></app-custom-input>
+    </app-form-field>
+  </div>
+
+  <app-form-field label="Email">
+    <app-custom-input type="email" name="email" formControlName="email"></app-custom-input>
+  </app-form-field>
+
+  <app-form-field label="Status">
+    <app-custom-input
+      type="select"
+      name="isActive"
+      formControlName="isActive"
+      [options]="[{value: true, label: 'Active'}, {value: false, label: 'Inactive'}]">
+    </app-custom-input>
+  </app-form-field>
+
+  <div class="form-actions-footer">
+    <app-button type="button" color="secondary" (onClick)="onCancel()">Cancel</app-button>
+    <app-button type="submit" color="primary" [disabled]="!userForm.valid">
+      {{ isEditMode ? 'Save Changes' : 'Create User' }}
+    </app-button>
+  </div>
+</form>

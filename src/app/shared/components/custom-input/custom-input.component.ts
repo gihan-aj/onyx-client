@@ -6,13 +6,17 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 export type InputType = 'text' | 'password' | 'email' | 'select';
 
 @Component({
   selector: 'app-custom-input',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './custom-input.component.html',
   styleUrl: './custom-input.component.scss',
   providers: [
@@ -28,9 +32,8 @@ export class CustomInputComponent implements ControlValueAccessor {
   @Input() placeholder: string = '';
   @Input() loading: boolean = false;
   @Input() options: { value: any; label: string }[] = [];
-  @Input() name!: string; // Used for the 'for' attribute on the label
+  @Input() name!: string;
   @Input() clickableIconClass: string | null = null;
-
   @Output() iconClick = new EventEmitter<void>();
 
   value: any;
@@ -38,8 +41,8 @@ export class CustomInputComponent implements ControlValueAccessor {
   onChange = (value: any) => {};
   onTouched = () => {};
 
-  writeValue(obj: any): void {
-    this.value = obj;
+  writeValue(value: any): void {
+    this.value = value;
   }
 
   registerOnChange(fn: any): void {
@@ -54,16 +57,17 @@ export class CustomInputComponent implements ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
-  onInputChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+  onSelectionChange(value: any) {
     this.onChange(value);
     this.onTouched();
   }
 
-  onSelectionChange(event: Event) {
-    const value = (event.target as HTMLSelectElement).value;
-    this.onChange(value);
-    this.onTouched();
+  onTextInputChange(event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    if (target) {
+      this.onChange(target.value);
+      this.onTouched();
+    }
   }
 
   onIconClick(event: MouseEvent) {

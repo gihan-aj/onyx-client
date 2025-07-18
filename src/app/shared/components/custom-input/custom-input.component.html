@@ -2,22 +2,35 @@
   <ng-container [ngSwitch]="type === 'select'">
 
     <!-- Case for the select dropdown -->
-    <select *ngSwitchCase="'select'" [id]="name" class="form-control" [value]="value" [disabled]="isDisabled || loading"
-      (change)="onSelectionChange($event)">
-      <option [value]="null" disabled>{{ placeholder }}</option>
-      <option *ngFor="let option of options" [value]="option.value">
+    <select *ngSwitchCase="true"
+            [id]="name"
+            class="form-control"
+            [ngModel]="value"
+            (ngModelChange)="onSelectionChange($event)"
+            [disabled]="isDisabled || loading">
+      <option [ngValue]="null" disabled>{{ placeholder || 'Select an option' }}</option>
+      <!-- Use [ngValue] to bind the actual boolean/object value -->
+      <option *ngFor="let option of options" [ngValue]="option.value">
         {{ option.label }}
       </option>
     </select>
 
-    <input *ngSwitchDefault [id]="name" [type]="type" class="form-control" [placeholder]="placeholder"
-      [value]="value || ''" [disabled]="isDisabled || loading" (input)="onInputChange($event)">
+    <!-- Default case for all other input types -->
+    <input *ngSwitchDefault
+           [id]="name"
+           [type]="type"
+           class="form-control"
+           [value]="value || ''"
+           [disabled]="isDisabled || loading"
+           (input)="onTextInputChange($event)">
 
   </ng-container>
 
   <!-- Clickable Icon on the right -->
-  <i *ngIf="clickableIconClass && !loading" [class]="clickableIconClass" class="clickable-icon"
-    (click)="onIconClick($event)">
+  <i *ngIf="clickableIconClass && !loading"
+     [class]="clickableIconClass"
+     class="clickable-icon"
+     (click)="onIconClick($event)">
   </i>
 
   <!-- Loading Spinner -->
