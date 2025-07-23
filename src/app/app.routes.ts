@@ -11,6 +11,7 @@ import { ResetPasswordComponent } from './features/auth/reset-password/reset-pas
 import { publicGuard } from './core/guards/public.guard';
 import { LayoutComponent } from './core/layout/layout.component';
 import { UserListComponent } from './features/users/user-list/user-list.component';
+import { RoleListComponent } from './features/roles/role-list/role-list.component';
 
 export const routes: Routes = [
   // Public routes that are only for unauthenticated users
@@ -42,6 +43,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'users', component: UserListComponent },
+      { path: 'roles', component: RoleListComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

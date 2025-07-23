@@ -6,5 +6,10 @@ export const environment = {
 
     // Base URL for the user management endpoints
     users: 'https://localhost:7026/api/v1/users',
+
+    // Base URL for the permission management endpoints
+    permissions: 'https://localhost:7026/api/v1/permissions',
+
+    roles: 'https://localhost:7026/api/v1/roles',
   },
 };

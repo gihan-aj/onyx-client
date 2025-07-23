@@ -21,6 +21,10 @@ import { localStorageSync } from './core/store/local-storage-sync.reducer';
 import { appInitializerFactory } from './core/store/app-init.factory';
 import { UsersEffects } from './features/users/store/users.effects';
 import { usersFeature } from './features/users/store/users.reducer';
+import { PermissionEffects } from './features/permissions/store/permissions.effects';
+import { RolesEffects } from './features/roles/store/roles.effects';
+import { permissionsFeature } from './features/permissions/store/permissions.reducer';
+import { rolesFeature } from './features/roles/store/roles.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,11 +43,13 @@ export const appConfig: ApplicationConfig = {
     provideStore({}, { metaReducers: [localStorageSync] }),
 
     // 2. Register the Effects
-    provideEffects(AuthEffects, UsersEffects),
+    provideEffects(AuthEffects, UsersEffects, PermissionEffects, RolesEffects),
 
     // Register our 'auth' feature state with the global store
     provideState(authFeature),
     provideState(usersFeature),
+    provideState(permissionsFeature),
+    provideState(rolesFeature),
 
     // 3. Register the Store DevTools and only enable it for development mode
     provideStoreDevtools({
