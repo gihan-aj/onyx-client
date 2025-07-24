@@ -1,0 +1,19 @@
+<div class="permission-groups-container">
+    <div *ngFor="let group of permissionGroups" class="permission-group">
+        <div class="group-header">
+            <input #cb type="checkbox" class="form-check-input" [id]="'group-' + group.groupName"
+                [checked]="isGroupSelected(group)" [indeterminate]="isGroupIndeterminate(group)"
+                (change)="onGroupChange(group, cb.checked)">
+            <label [for]="'group-'+ group.groupName" class="group-label">{{group.groupName}}</label>
+        </div>
+
+        <div class="permissions-list">
+            <div *ngFor="let permission of group.permissions" class="permission-item">
+                <input #cb type="checkbox" class="form-check-input" [id]="permission.name"
+                    [checked]="selectedPermissions.has(permission.name)"
+                    (change)="onPermissionChange(permission.name, cb.checked)">
+                <label [for]="permission.name">{{ permission.description }}</label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,1 +1,44 @@
-<p>role-list works!</p>
+<div class="page-header">
+    <h1 class="title">Role Management</h1>
+
+    <app-button (onClick)="openRoleForm()">
+        <i class="bx bx-plus mr-2"></i>
+        Add Role
+    </app-button>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">All Roles</h3>
+    </div>
+
+    <div class="card-body">
+        <app-data-table
+            [data]="roles$ | async"
+            [columns]="columns"
+            [isLoading]="(isLoading$ | async)!"
+            >
+        </app-data-table>
+    </div>
+
+    <div class="card-footer" *ngIf="(paginationData$ | async) as pagination ">
+        <app-pagination
+            [currentPage]="pagination.currentPage"
+            [pageSize]="pagination.pageSize"
+            [totalCount]="pagination.totalCount"
+            (pageChange)="onPageChange($event)"
+        ></app-pagination>
+    </div>
+</div>
+
+<!-- Custom Template for the 'Actions' column -->
+<ng-template #actionsTpl let-role>
+  <div class="action-buttons">
+    <button class="action-btn" (click)="openRoleForm(role)" title="Edit Role">
+      <i class='bx bxs-edit'></i>
+    </button>
+    <button class="action-btn action-btn-danger" (click)="deleteRole(role)" title="Delete Role">
+      <i class='bx bx-trash'></i>
+    </button>
+  </div>
+</ng-template>
