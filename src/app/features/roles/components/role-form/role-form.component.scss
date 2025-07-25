@@ -1,0 +1,22 @@
+@import 'variables';
+
+.permissions-section {
+  margin-top: $spacing-base * 3;
+}
+
+.permissions-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: $spacing-base * 2;
+  padding-bottom: $spacing-base;
+  border-bottom: 1px solid $color-border;
+}
+
+.form-actions-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-base * 2;
+  margin-top: $spacing-base * 4;
+  padding-top: $spacing-base * 3;
+  border-top: 1px solid $color-border;
+}

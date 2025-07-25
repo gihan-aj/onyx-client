@@ -1,1 +1,27 @@
-<p>role-form works!</p>
+<form [formGroup]="roleForm" (ngSubmit)="onSave()">
+  <app-form-field label="Role Name">
+    <app-custom-input type="text" formControlName="name"></app-custom-input>
+  </app-form-field>
+
+  <div class="permissions-section">
+    <h4 class="permissions-title">Assign Permissions</h4>
+    <div *ngIf="(permissionsLoading$ | async); else tree">
+      <!-- Add a simple loader here -->
+      <p>Loading permissions...</p>
+    </div>
+    <ng-template #tree>
+      <app-permission-tree
+        [permissionGroups]="(permissionGroups$ | async)!"
+        formControlName="permissions">
+      </app-permission-tree>
+    </ng-template>
+  </div>
+
+
+  <div class="form-actions-footer">
+    <app-button type="button" color="secondary" (onClick)="onCancel()">Cancel</app-button>
+    <app-button type="submit" color="primary" [disabled]="!roleForm.valid">
+      {{ isEditMode ? 'Save Changes' : 'Create Role' }}
+    </app-button>
+  </div>
+</form>

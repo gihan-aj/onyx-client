@@ -4,9 +4,8 @@
             <input #cb type="checkbox" class="form-check-input" [id]="'group-' + group.groupName"
                 [checked]="isGroupSelected(group)" [indeterminate]="isGroupIndeterminate(group)"
                 (change)="onGroupChange(group, cb.checked)">
-            <label [for]="'group-'+ group.groupName" class="group-label">{{group.groupName}}</label>
+            <label class="group-label" [for]="'group-' + group.groupName">{{ group.groupName }}</label>
         </div>
-
         <div class="permissions-list">
             <div *ngFor="let permission of group.permissions" class="permission-item">
                 <input #cb type="checkbox" class="form-check-input" [id]="permission.name"

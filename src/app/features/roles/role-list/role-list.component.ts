@@ -15,6 +15,8 @@ import { RolesActions } from '../store/roles.actions';
 import { CommonModule } from '@angular/common';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { ModalService } from '../../../shared/services/modal.service';
+import { RoleFormComponent } from '../components/role-form/role-form.component';
 
 @Component({
   selector: 'app-role-list',
@@ -29,6 +31,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 })
 export class RoleListComponent implements OnInit, AfterViewInit {
   private store = inject(Store);
+  private modalService = inject(ModalService);
 
   @ViewChild('actionsTpl', { static: true }) actionsTpl!: TemplateRef<any>;
 
@@ -66,7 +69,22 @@ export class RoleListComponent implements OnInit, AfterViewInit {
   }
 
   openRoleForm(role?: Role) {
-    console.log('Opening for', role ? role.name : 'new role');
+    const modalRef = this.modalService.open(RoleFormComponent, {
+      title: role ? 'Edit Role' : 'Create New Role',
+      data: { role },
+    });
+
+    modalRef.subscribe((formData) => {
+      if (formData) {
+        if (role) {
+          this.store.dispatch(
+            RolesActions.updateRole({ id: role.id, ...formData })
+          );
+        } else {
+          this.store.dispatch(RolesActions.createRole(formData));
+        }
+      }
+    });
   }
 
   deleteRole(role: Role) {

@@ -30,13 +30,13 @@ export class RoleService {
     return this.http.get<PagedList<Role>>(this.apiUrl, { params });
   }
 
-  createRole(role: { name: string; permissions: number[] }): Observable<void> {
+  createRole(role: { name: string; permissions: string[] }): Observable<void> {
     return this.http.post<void>(this.apiUrl, role);
   }
 
   updateRole(
     id: number,
-    role: { name: string; permissions: number[] }
+    role: { name: string; permissions: string[] }
   ): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}`, role);
   }

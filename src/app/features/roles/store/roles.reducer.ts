@@ -55,6 +55,16 @@ export const rolesFeature = createFeature({
       ...state,
       isLoading: false,
       error,
+    })),
+    on(RolesActions.updateRole, (state) => ({ ...state, isLoading: true })),
+    on(RolesActions.updateRoleSuccess, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
+    on(RolesActions.updateRoleFailure, (state, { error }) => ({
+      ...state,
+      isLoading: false,
+      error,
     }))
   ),
 
