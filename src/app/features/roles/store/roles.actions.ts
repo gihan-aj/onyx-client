@@ -13,11 +13,11 @@ export const RolesActions = createActionGroup({
     'Load Roles Success': props<{ pagedList: PagedList<Role> }>(),
     'Load Roles Failure': props<{ error: string }>(),
 
-    'Create Role': props<{ name: string; permissions: string[] }>(),
+    'Create Role': props<{ name: string; permissionNames: string[] }>(),
     'Create Role Success': emptyProps(),
     'Create Role Failure': props<{ error: string }>(),
 
-    'Update Role': props<{ id: number; name: string; permissions: string[] }>(),
+    'Update Role': props<{ id: number; name: string; permissionNames: string[] }>(),
     'Update Role Success': emptyProps(),
     'Update Role Failure': props<{ error: string }>(),
   },
