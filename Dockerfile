@@ -1,35 +1,36 @@
-# Dockerfile for Angular App
+# Stage 1: Build the Angular application
+# We use a specific Node.js version. It's good practice to match the version you use locally.
+FROM node:22 AS build
+WORKDIR /usr/src/app
 
-# --- Stage 1: The 'build' stage ---
-# Use a Node.js image to build the application
-FROM node:22-alpine AS build
-WORKDIR /app
+# Copy package.json and package-lock.json to leverage Docker cache
+COPY package*.json ./
 
-# Copy package files and install dependencies
-# This leverages Docker caching
-COPY package.json package-lock.json ./
+# Install dependencies
 RUN npm install
 
 # Copy the rest of the application source code
 COPY . .
 
-# Build the Angular app for production
-RUN npm run build --prod
+# Build the application for production. 
+# The output will be in the /dist/{your-app-name} folder.
+# The --configuration production flag enables various optimizations.
+RUN npm run build -- --configuration production
 
-# --- Stage 2: The 'final' stage ---
-# Use a lightweight Nginx image to serve the static files
-FROM nginx:stable-alpine
+# Stage 2: Serve the application with NGINX
+# NGINX is a very lightweight and high-performance web server.
+FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 
-# Remove the default Nginx content
+# Remove the default NGINX welcome page
 RUN rm -rf ./*
 
-# Copy the built application from the 'build' stage
-COPY --from=build /app/dist/onyx-client/browser/ .
+# Copy the built application files from the 'build' stage
+# IMPORTANT: Project's name in angular.json
+COPY --from=build /usr/src/app/dist/onyx-client/browser/ .
 
-# Copy our custom Nginx configuration
+# Copy the custom NGINX configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80 to the outside world
+# Expose port 80 to allow traffic to the web server
 EXPOSE 80
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
