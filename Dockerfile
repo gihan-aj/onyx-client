@@ -1,6 +1,7 @@
 # Stage 1: Build the Angular application
-# We use a specific Node.js version. It's good practice to match the version you use locally.
-FROM node:22 AS build
+# Using the Long-Term Support (LTS) version of Node.js (node:20) is more stable for production builds.
+# The -alpine variant is smaller, leading to a more efficient build process.
+FROM node:20-alpine AS build
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to leverage Docker cache
@@ -12,9 +13,7 @@ RUN npm install
 # Copy the rest of the application source code
 COPY . .
 
-# Build the application for production. 
-# The output will be in the /dist/{your-app-name} folder.
-# The --configuration production flag enables various optimizations.
+# Build the application for production.
 RUN npm run build -- --configuration production
 
 # Stage 2: Serve the application with NGINX
@@ -25,8 +24,8 @@ WORKDIR /usr/share/nginx/html
 # Remove the default NGINX welcome page
 RUN rm -rf ./*
 
-# Copy the built application files from the 'build' stage
-# IMPORTANT: Project's name in angular.json
+# Copy the built application files from the 'build' stage.
+# The path is confirmed to be correct based on your angular.json.
 COPY --from=build /usr/src/app/dist/onyx-client/browser/ .
 
 # Copy the custom NGINX configuration file
